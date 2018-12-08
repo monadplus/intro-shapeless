@@ -1,7 +1,5 @@
-package scala
-
 import CsvEncoder._
-import shapeless.{:: => :::, HList, HNil, Lazy}
+import shapeless.{::, HList, HNil, Lazy}
 
 object DerivingCoproduct extends App {
   import shapeless.{:+:, CNil, Coproduct, Generic, Inl, Inr}
@@ -16,9 +14,9 @@ object DerivingCoproduct extends App {
 
   implicit def hlistEncoder[H, T <: HList](implicit
                                            hEncoder: Lazy[CsvEnconder[H]],
-                                           tEncoder: CsvEnconder[T]): CsvEnconder[H ::: T] =
+                                           tEncoder: CsvEnconder[T]): CsvEnconder[H :: T] =
     instance {
-      case h ::: t =>
+      case h :: t =>
         hEncoder.value.encode(h) ++ tEncoder.encode(t)
     }
 
@@ -62,16 +60,16 @@ object DerivingCoproduct extends App {
   // 1 CsvEncoder[Tree[Int]]
   // 2 CsvEncoder[Branch[Int] :+: Leaf[Int] :+: CNil]
   // 3 CsvEncoder[Branch[Int]]
-  // 4 CsvEncoder[Tree[Int] ::: Tree[Int] ::: HNil]
+  // 4 CsvEncoder[Tree[Int] :: Tree[Int] :: HNil]
   // 5 CsvEncoder[Tree[Int]]
 
   // case class Bar(baz: Int, qux: String)
   // case class Foo(bar: Bar)
 
   // 1 CsvEncoder[Foo]
-  // 2 CsvEncoder[Bar ::: HNil]
+  // 2 CsvEncoder[Bar :: HNil]
   // 3 CsvEncoder[Bar]
-  // 4 CsvEncoder[Int ::: String ::: HNil]
+  // 4 CsvEncoder[Int :: String :: HNil]
 
   CsvEncoder[Tree[Double]]
 
@@ -80,7 +78,7 @@ object DerivingCoproduct extends App {
 
   // case class Foo(a: Int, b: Boolean)
   // CsvEncoder[Foo] // this fails
-  // CsvEncoder[Int ::: Boolean ::: HNil] // this fails
+  // CsvEncoder[Int :: Boolean :: HNil] // this fails
   // CsvEncoder[Int] // this does not fail
   // CsvEncoder[Boolean] // this fails then it's the root of the problem
 

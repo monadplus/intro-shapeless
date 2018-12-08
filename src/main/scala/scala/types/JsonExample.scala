@@ -1,4 +1,4 @@
-package scala.types
+package types
 
 object JsonExample extends App {
 

@@ -1,5 +1,3 @@
-package scala
-
 trait CsvEnconder[A] {
   def encode(value: A): List[String]
 }

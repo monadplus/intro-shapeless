@@ -81,7 +81,7 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
   parallelExecution in Test := true,
   fork in Test := true,
   libraryDependencies ++= commonDependencies,
-  scalafmtOnCompile := true,
+//  scalafmtOnCompile := true, //Travis don't like it
   addCompilerPlugin("org.spire-math" %% "kind-projector" % kindProjectorVersion)
 ) ++ compilerFlags
 

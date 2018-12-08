@@ -1,5 +1,3 @@
-package scala
-
 import shapeless._
 
 object GenericProduct extends App {

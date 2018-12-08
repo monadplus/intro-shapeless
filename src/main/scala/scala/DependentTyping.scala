@@ -1,5 +1,3 @@
-package scala
-
 import shapeless.ops.hlist.IsHCons
 
 object DependentTyping extends App {

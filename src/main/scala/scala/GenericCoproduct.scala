@@ -1,5 +1,3 @@
-package scala
-
 object GenericCoproduct extends App {
   import shapeless.{:+:, CNil, Inl, Inr}
 

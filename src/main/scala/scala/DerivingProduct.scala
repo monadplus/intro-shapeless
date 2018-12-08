@@ -1,5 +1,3 @@
-package scala
-
 import CsvEncoder._
 
 object DerivingProduct extends App {

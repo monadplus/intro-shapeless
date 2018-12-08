@@ -1,4 +1,4 @@
-package scala.types
+package types
 
 import shapeless.HNil
 import shapeless.syntax.singleton._

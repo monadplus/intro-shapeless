@@ -1,5 +1,3 @@
-package scala
-
 /*
   Definition of all case classes and companion objects
  */
