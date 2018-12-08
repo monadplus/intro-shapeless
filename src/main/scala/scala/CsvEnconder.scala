@@ -15,14 +15,11 @@ object CsvEncoder {
       }
     }
 
-  // Summoner
   def apply[A](implicit enc: CsvEnconder[A]): CsvEnconder[A] =
     enc
 
-  // Constructor
   def instance[A](f: A => List[String]): CsvEnconder[A] =
     new CsvEnconder[A] {
       override def encode(a: A): List[String] = f(a)
     }
-
 }

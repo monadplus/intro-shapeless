@@ -1,15 +1,18 @@
 import CsvEncoder._
+import Model._
+
+/*
+1.- Define your type class
+2.- Define instances for primitive types
+3.- Define instances for HList (HNil, ::)
+4.- Define instances for Coproduct (CNil, :+:)
+5.- Define an instance for Generic
+6.- Don't forget to add Lazy to :: and :+: header, Generic.Repr (Only required when your TC is complex or recursive)
+ */
 
 object DerivingProduct extends App {
 
-  val iceCreams: List[IceCream] = List(
-    IceCream("vanilla", inCone = true),
-    IceCream("chocolate", inCone = true),
-    IceCream("strawberry", inCone = false)
-  )
-
-  /** Product auto derivation */
-  import shapeless.{::, HList, HNil}
+  import shapeless.{::, Generic, HList, HNil}
 
   implicit val booleanEncoder: CsvEnconder[Boolean] =
     instance(b => if (b) List("yes") else List("no"))
@@ -30,15 +33,23 @@ object DerivingProduct extends App {
         hEncoder.encode(h) ++ tEncoder.encode(t)
     }
 
-  import shapeless.Generic
-
-  // one per each product type ?
   implicit lazy val iceCreamEncoder: CsvEnconder[IceCream] = {
     val gen = Generic[IceCream]
     val enc = CsvEncoder[gen.Repr]
     instance(iceCream => enc.encode(gen.to(iceCream)))
   }
-  writeCsv(iceCreams)(iceCreamEncoder)
+
+  val iceCreams: List[IceCream] = List(
+    IceCream("vanilla", inCone = true),
+    IceCream("chocolate", inCone = true),
+    IceCream("strawberry", inCone = false)
+  )
+
+  scala.Console.println {
+    s"Ice creams\n${writeCsv(iceCreams)(iceCreamEncoder)}\n"
+  }
+
+  // --------------------------------------------------------
 
   case class Wine(name: String, isOpen: Boolean)
   val wines = List(
@@ -49,20 +60,20 @@ object DerivingProduct extends App {
 
   implicit def genericEncoder[A, R](
       implicit
-      gen: Generic.Aux[A, R], // Generic[A] { type Repr = R },
+      gen: Generic.Aux[A, R],
       enc: CsvEnconder[R]
   ): CsvEnconder[A] =
     instance(a => enc.encode(gen.to(a)))
 
-  writeCsv(wines)
   /* Expands to:
-
   writeCsv(iceCreams)(
     genericEncoder(
       Generic[IceCream],
         hlistEncoder(stringEncoder,
-          hlistEncoder(intEncoder,
             hlistEncoder(booleanEncoder, hnilEncoder)))))
  */
 
+  scala.Console.println {
+    s"Wines\n${writeCsv(wines)}"
+  }
 }

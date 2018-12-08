@@ -1,6 +1,0 @@
-1.- Define your Typeclass
-2.- Define primitive instances of your TC (such as Int, Double ...)
-3.- Define instances for HList (HNil, ::)
-4.- Define instances for Coproduct (CNil, :+:)
-5.- Define an instance for Generic
-6.- Don't forget to add Lazy to :: and :+: header, Generic.Repr (Only required when your TC is complex or recursive)

@@ -41,7 +41,7 @@ lazy val compilerFlags = Seq(
     "-Xlint:type-parameter-shadow", // A local type parameter shadows a type already in scope.
     "-Xlint:unsound-match", // Pattern match may not be typesafe.
     "-Yno-adapted-args",    // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
-    // "-Yno-imports",                      // No predef or default imports
+//     "-Yno-imports",                      // No predef or default imports
     "-Ypartial-unification", // Enable partial unification in type constructor inference
     "-Ywarn-dead-code", // Warn when dead code is identified.
     "-Ywarn-extra-implicit", // Warn when more than one implicit parameter section is defined.
