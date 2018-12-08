@@ -3,6 +3,14 @@ language: scala
 scala:
   - 2.12.7
 
+jdk:
+  - openjdk8
+
+cache:
+  directories:
+  - $HOME/.ivy2
+  - $HOME/.sbt
+
 jobs:
   include:
   - stage: verify
