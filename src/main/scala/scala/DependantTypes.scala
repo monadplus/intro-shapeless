@@ -1,23 +1,22 @@
-package scala
-
-import shapeless.HNil
+import shapeless.{HNil, LabelledGeneric}
 import shapeless.syntax.singleton._
 
-object DependantTypes {
+import DependantTypes.{getFieldName, getFieldValue}
+
+object DependantTypes extends {
 
   /** Literal Types */
-  // "hello" has 4 types:
 //  ("hello": String)
 //  ("hello": AnyRef)
 //  ("hello": Any)
 //  ("hello".narrow)
 
-  /** phantom types: no run-time semantics */
+  /** Phantom Types: no run-time semantics */
   val number   = 1
   trait Cherries
   val numCherries0 = number.asInstanceOf[Int with Cherries]
 
-  // Shapeless uses this  trick to tag fields and subtypes in an ADT with the singleton types of their names
+  // Shapeless uses this trick to tag fields and subtypes in an ADT with the singleton types of their names
   "numCherries" ->> number // KeyTag["numCherries", Int]
 
   import shapeless.labelled.field
@@ -29,7 +28,6 @@ object DependantTypes {
   import shapeless.Witness
   import shapeless.labelled.FieldType
 
-
   def getFieldName[K, V](@unchecked value: FieldType[K, V])(
       implicit witness: Witness.Aux[K]
   ): K =
@@ -38,14 +36,16 @@ object DependantTypes {
   def getFieldValue[K, V](value: FieldType[K, V]): V =
     value
 
-  val numCherries = "numCherries" ->> 4
+  /** Labelled Generic */
+  val garfield  = ("cat" ->> "Garfield") :: ("orange" ->> true) :: HNil
+  // FieldType[SingletonOps#T, String] :: FieldType[SingletonOps#T, Boolean] :: HNil
+}
 
+object Main extends App {
+
+  val numCherries = "numCherries" ->> 4
   println {
     s"name: ${getFieldName(numCherries)}," +
       s" value: ${getFieldValue(numCherries)}"
   }
-
-  /** Labelled Generic */
-  val garfield  = ("cat" ->> "Garfield") :: ("orange" ->> true) :: HNil
-  // garfield: FieldType[SingletonOps#T, String] :: FieldType[SingletonOps#T, Boolean] :: HNil
 }

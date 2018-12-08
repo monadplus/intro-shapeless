@@ -1,12 +1,15 @@
 resolvers in Global += Resolver.sonatypeRepo("releases") // "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-lazy val catsVersion = "1.5.0"
-lazy val shapelessVersion = "2.3.3"
+lazy val catsVersion          = "1.5.0"
+lazy val shapelessVersion     = "2.3.3"
 lazy val kindProjectorVersion = "0.9.8"
+lazy val scalaTestVersion     = "3.0.5"
 
 lazy val commonDependencies = Seq(
   "org.typelevel" %% "cats-core" % catsVersion,
-  "com.chuusai" %% "shapeless" % shapelessVersion
+  "com.chuusai"   %% "shapeless" % shapelessVersion,
+  "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
+  "org.scalactic" %% "scalactic" % scalaTestVersion % Test
 )
 
 lazy val compilerFlags = Seq(
@@ -19,7 +22,7 @@ lazy val compilerFlags = Seq(
     "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
     "-language:higherKinds", // Allow higher-kinded types
     "-language:implicitConversions", // Allow definition of implicit functions called views
-    "-unchecked", // Enable additional warnings where generated code depends on assumptions.
+    "-unchecked",  // Enable additional warnings where generated code depends on assumptions.
     "-Xcheckinit", // Wrap field accessors to throw an exception on uninitialized access.
 //    "-Xfatal-warnings", // Fail the compilation if there are any warnings.
     "-Xfuture", // Turn on future language features.
