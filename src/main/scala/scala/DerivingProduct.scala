@@ -20,17 +20,17 @@ object DerivingProduct extends App {
   implicit val stringEncoder: CsvEnconder[String] =
     instance(str => List(str))
 
-  implicit val hnilEncoder: CsvEnconder[HNil] =
-    instance { _ =>
-      Nil
-    }
-
   implicit def hlistEncoder[H, T <: HList](implicit
                                            hEncoder: CsvEnconder[H],
                                            tEncoder: CsvEnconder[T]): CsvEnconder[H :: T] =
     instance {
       case h :: t =>
         hEncoder.encode(h) ++ tEncoder.encode(t)
+    }
+
+  implicit val hnilEncoder: CsvEnconder[HNil] =
+    instance { _ =>
+      Nil
     }
 
   implicit lazy val iceCreamEncoder: CsvEnconder[IceCream] = {

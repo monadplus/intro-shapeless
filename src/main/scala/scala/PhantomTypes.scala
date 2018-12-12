@@ -1,9 +1,9 @@
 import shapeless.{HNil, LabelledGeneric}
 import shapeless.syntax.singleton._
 
-import DependantTypes.{getFieldName, getFieldValue}
+import PhantomTypes.{getFieldName, getFieldValue}
 
-object DependantTypes extends {
+object PhantomTypes extends {
 
   /** Literal Types */
 //  ("hello": String)
@@ -12,8 +12,8 @@ object DependantTypes extends {
 //  ("hello".narrow)
 
   /** Phantom Types: no run-time semantics */
-  val number   = 1
   trait Cherries
+  val number   = 1
   val numCherries0 = number.asInstanceOf[Int with Cherries]
 
   // Shapeless uses this trick to tag fields and subtypes in an ADT with the singleton types of their names
