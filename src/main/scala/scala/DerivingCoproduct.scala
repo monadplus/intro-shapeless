@@ -18,20 +18,6 @@ object DerivingCoproduct extends App {
   implicit val doubleEncoder: CsvEnconder[Double] =
     instance(d => List(d.toString))
 
-  implicit val hnilEncoder: CsvEnconder[HNil] =
-    instance { _ =>
-      Nil
-    }
-
-  // Product encoder is required by coproduct encoder to produce the H of coproductEncoder
-  implicit def hlistEncoder[H, T <: HList](implicit
-                                           hEncoder: CsvEnconder[H],
-                                           tEncoder: CsvEnconder[T]): CsvEnconder[H :: T] =
-    instance {
-      case h :: t =>
-        hEncoder.encode(h) ++ tEncoder.encode(t)
-    }
-
   implicit val cnilEncoder: CsvEnconder[CNil] =
     instance { _ =>
       throw new RuntimeException("Inconceivable")
@@ -43,6 +29,22 @@ object DerivingCoproduct extends App {
     instance {
       case Inl(h) => hEncoder.encode(h)
       case Inr(t) => tEncoder.encode(t)
+    }
+
+  // Product encoder is required by coproduct encoder to produce the H of coproductEncoder
+  // Example: Shape :: Rectangle :+: Circle :+: CNil
+  //          Circle instance:  Inr(Inl(Circle))
+  implicit def hlistEncoder[H, T <: HList](implicit
+                                           hEncoder: CsvEnconder[H],
+                                           tEncoder: CsvEnconder[T]): CsvEnconder[H :: T] =
+    instance {
+      case h :: t =>
+        hEncoder.encode(h) ++ tEncoder.encode(t)
+    }
+
+  implicit val hnilEncoder: CsvEnconder[HNil] =
+    instance { _ =>
+      Nil
     }
 
   implicit def genericEncoder[A, R](
