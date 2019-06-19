@@ -1,7 +1,5 @@
-### Generic programming with Shapeless [![Build Status](https://travis-ci.org/statictypeddog/intro-shapeless.svg?branch=master)](https://travis-ci.org/statictypeddog/intro-shapeless) 
+### Generic programming in scala
  
-This project is part of a presentation that illustrates the very basics of generic programming for Scala using shapeless library.
+This project illustrates the bases of generic programming in scala with [shapeless](https://github.com/milessabin/shapeless).
  
-[**Shapeless**](https://github.com/milessabin/shapeless) is a type class and dependent type based generic programming library for Scala.
- 
-Slides [here](https://speakerdeck.com/statictypeddog)
+Slides [here](https://speakerdeck.com/statictypeddog).
